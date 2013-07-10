@@ -19,38 +19,27 @@ Example usage:
 
     $ heroku config:add BUILDPACK_URL=https://github.com/ddollar/heroku-buildpack-multi.git
 
-    $ heroku config:add HEROKU_API_EMAIL=my-fake-email@gmail.com
+    $ heroku config:add HEROKU_TOOLBELT_API_EMAIL=my-fake-email@gmail.com
 
-    $ heroku auth:token
-      aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-
-    $ heroku config:add HEROKU_API_PASSWORD=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+    $ heroku config:add HEROKU_TOOLBELT_API_PASSWORD=`heroku auth:token`
 
     $ cat .buildpacks
     https://github.com/heroku/heroku-buildpack-toolbelt.git
-    https://github.com/dpiddy/heroku-buildpack-ruby-minimal.git
+    https://github.com/heroku/heroku-buildpack-ruby.git
 
     $ git push heroku master
     ...
     -----> Fetching custom git buildpack... done
     -----> Multipack app detected
-    =====> Downloading Buildpack: https://github.com/gregburek/heroku-buildpack-pgbouncer.git
-    =====> Detected Framework: pgbouncer-stunnel
-           Using pgbouncer version: 1.5.4
-           Using stunnel version: 4.56
-    -----> Fetching and vendoring pgbouncer into slug
-    -----> Fetching and vendoring stunnel into slug
-    -----> Moving the configuration generation script into app/.profile.d
-    -----> Moving the start-pgbouncer-stunnel script into app/bin
-    -----> pgbouncer/stunnel done
+    =====> Downloading Buildpack: https://github.com/gregburek/heroku-buildpack-toolbelt
+    =====> Detected Framework: heroku-toolbelt
+    -----> Fetching and vendoring Heroku Toolbelt into slug
+    -----> Moving the netrc generation script into app/.profile.d
+    -----> heroku toolbelt installation done
     =====> Downloading Buildpack: https://github.com/heroku/heroku-buildpack-ruby.git
     =====> Detected Framework: Ruby/Rack
     -----> Using Ruby version: ruby-1.9.3
     -----> Installing dependencies using Bundler version 1.3.2
     ...
-
-The buildpack will install and configure pgbouncer and stunnel to connect to
-`DATABASE_URL` over a SSL connection. Prepend `bin/start-pgbouncer-stunnel`
-to any process in the Procfile to run pgbouncer and stunnel alongside that process.
 
 

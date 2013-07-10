@@ -2,6 +2,6 @@
 
 cat >> ~/.netrc << EOF
 machine dyno.heroku.com
-  login $HEROKU_API_EMAIL
-  password $HEROKU_API_PASSWORD
+  login $HEROKU_TOOLBELT_API_EMAIL
+  password $HEROKU_TOOLBELT_API_PASSWORD
 EOF
