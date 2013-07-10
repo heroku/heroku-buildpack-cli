@@ -11,6 +11,7 @@ set -e
 unset GIT_DIR
 
 # config
+HEROKU_CLIENT_URL="http://assets.heroku.com.s3.amazonaws.com/heroku-client/heroku-client.tgz"
 
 # parse and derive params
 BUILD_DIR=$1
@@ -42,6 +43,22 @@ function package_download() {
 }
 
 echo "-----> Fetching and vendoring Heroku Toolbelt into slug"
-wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
+
+# vendor directories
+VENDORED_TOOLBELT="vendor/heroku-toolbelt"
+
+# download and extract the client tarball
+rm -rf "$BUILD_DIR/$VENDORED_TOOLBELT"
+mkdir -p "$BUILD_DIR/$VENDORED_TOOLBELT"
+cd "$BUILD_DIR/$VENDORED_TOOLBELT"
+
+if [[ -z "$(which wget)" ]]; then
+  curl -s $HEROKU_CLIENT_URL | tar xz
+else
+  wget -qO- $HEROKU_CLIENT_URL | tar xz
+fi
+
+mv heroku-client/* .
+rmdir heroku-client
 
 echo "-----> heroku toolbelt installation done"
