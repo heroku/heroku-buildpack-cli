@@ -46,6 +46,14 @@ Example usage:
     Running `vendor/heroku-toolbelt/bin/heroku auth:token` attached to terminal... up, run.3706
     abcdef0123456789abcdef0123456789abcdef01
 
+    $ heroku run 'vendor/heroku-toolbelt/bin/heroku pgbackups:capture SILVER -a myapp'
+    Running `vendor/heroku-toolbelt/bin/heroku pgbackups:capture SILVER -a myapp` attached to terminal... up, run.9532
+
+    HEROKU_POSTGRESQL_SILVER_URL  ----backup--->  b003
+
+    Capturing... done
+    Storing... done
+
 
 Notes
 ------
