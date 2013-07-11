@@ -42,4 +42,15 @@ Example usage:
     -----> Installing dependencies using Bundler version 1.3.2
     ...
 
+    $ heroku run 'vendor/heroku-toolbelt/bin/heroku auth:token'
+    Running `vendor/heroku-toolbelt/bin/heroku auth:token` attached to terminal... up, run.3706
+    abcdef0123456789abcdef0123456789abcdef01
+
+
+Notes
+------
+
+Some PATH manipulation may be needed, expecially if you are using the
+heroku-buildpack-ruby-minimal solely to provide a ruby execution environment
+for the heroku cli gem. 
 
