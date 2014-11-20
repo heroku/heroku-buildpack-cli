@@ -3,6 +3,9 @@ Heroku buildpack: Heroku Toolbelt
 
 This is a [Heroku buildpack](http://devcenter.heroku.com/articles/buildpacks) that
 allows one to run Heroku Toolbelt in a dyno alongside application code.
+
+This is not a replacement for the [Heroku API](https://devcenter.heroku.com/articles/platform-api-reference#overview) or various clients like [v3 Ruby](https://github.com/heroku/platform-api), [v2 Ruby](https://github.com/heroku/heroku.rb), [node](https://www.npmjs.org/package/heroku-client) or [python](https://github.com/heroku/heroku.py). Some private APIs like `pgbackups` do require the buildpack, so this exists.
+
 It is meant to be used in conjunction with at least the
 [minimal ruby](https://github.com/dpiddy/heroku-buildpack-ruby-minimal) as well
 as other buildpacks as part of a
