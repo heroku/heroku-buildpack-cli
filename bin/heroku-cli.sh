@@ -7,9 +7,9 @@ export PATH=$PATH:/app/heroku-cli/bin
 umask 0077
 cat >> ~/.netrc << EOF
 machine api.heroku.com
-  password $HEROKU_TOOLBELT_API_PASSWORD
-  login $HEROKU_TOOLBELT_API_EMAIL
+  password $H_API_TOKEN
+  login $H_API_EMAIL
 machine code.heroku.com
-  password $HEROKU_TOOLBELT_API_PASSWORD
-  login $HEROKU_TOOLBELT_API_EMAIL
+  password $H_API_TOKEN
+  login $H_API_EMAIL
 EOF

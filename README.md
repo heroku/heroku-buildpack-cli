@@ -11,7 +11,10 @@ Usage
 
 Example usage:
 
-    $ heroku buildpacks:add https://github.com/mikehale/heroku-buildpack-toolbelt
+    $ heroku config:set H_API_EMAIL=my-fake-email@gmail.com
+    $ heroku config:set H_API_TOKEN=`heroku auth:token`
+
+    $ heroku buildpacks:add https://github.com/mikehale/heroku-buildpack-cli
     $ heroku buildpacks:add heroku/ruby
 
     $ git push heroku master
@@ -29,8 +32,8 @@ Example usage:
     -----> Installing dependencies using Bundler version 1.3.2
     ...
 
-    $ heroku run 'vendor/heroku-toolbelt/bin/heroku auth:token'
-    Running `vendor/heroku-toolbelt/bin/heroku auth:token` attached to terminal... up, run.3706
+    $ heroku run 'heroku auth:token'
+    Running `heroku auth:token` attached to terminal... up, run.3706
     abcdef0123456789abcdef0123456789abcdef01
 
     $ heroku run 'vendor/heroku-toolbelt/bin/heroku pgbackups:capture SILVER -a myapp'
