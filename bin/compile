@@ -2,68 +2,32 @@
 # bin/compile <build-dir> <cache-dir>
 
 # fail fast
-set -e
+set -ueo pipefail
 
 # debug
 # set -x
 
-# clean up leaking environment
-unset GIT_DIR
+source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v4/stdlib.sh)"
 
-# config
-HEROKU_CLIENT_URL="http://assets.heroku.com.s3.amazonaws.com/heroku-client/heroku-client.tgz"
-
-# parse and derive params
 BUILD_DIR=$1
 CACHE_DIR=$2
-LP_DIR=`cd $(dirname $0); cd ..; pwd`
 BUILDPACK_DIR="$(dirname $(dirname $0))"
+HEROKU_CLI_URL="https://cli-assets.heroku.com/heroku-cli/channels/stable/heroku-cli-linux-x64.tar.gz"
 
-function error() {
-  echo " !     $*" >&2
-  exit 1
-}
+puts_step "Fetching and vendoring Heroku CLI into slug"
+rm -rf "$BUILD_DIR/heroku-cli"
+mkdir -p "$BUILD_DIR/heroku-cli"
+cd "$BUILD_DIR/heroku-cli"
 
-function indent() {
-  c='s/^/       /'
-  case $(uname) in
-    Darwin) sed -l "$c";;
-    *)      sed -u "$c";;
-  esac
-}
-
-function package_download() {
-  engine="$1"
-  version="$2"
-  location="$3"
-
-  mkdir -p $location
-  package="https://${S3_BUCKET}.s3.amazonaws.com/$engine-$version.tgz"
-  curl $package -s -o - | tar xzf - -C $location
-}
-
-echo "-----> Fetching and vendoring Heroku Toolbelt into slug"
-
-# vendor directories
-VENDORED_TOOLBELT="vendor/heroku-toolbelt"
-
-# download and extract the client tarball
-rm -rf "$BUILD_DIR/$VENDORED_TOOLBELT"
-mkdir -p "$BUILD_DIR/$VENDORED_TOOLBELT"
-cd "$BUILD_DIR/$VENDORED_TOOLBELT"
-
-if [[ -z "$(which wget)" ]]; then
-  curl -s $HEROKU_CLIENT_URL | tar xz
+if [[ -z "$(which curl)" ]]; then
+  wget -qO- $HEROKU_CLI_URL | tar xz --strip-components 1
 else
-  wget -qO- $HEROKU_CLIENT_URL | tar xz
+  curl -s --retry 3 $HEROKU_CLI_URL | tar xz --strip-components 1
 fi
 
-mv heroku-client/* .
-rmdir heroku-client
-
-echo "-----> Moving the netrc generation script into app/.profile.d"
+puts_step "Installing profile.d script"
 mkdir -p $BUILD_DIR/.profile.d
-cp "$BUILDPACK_DIR/bin/gen-netrc.sh" $BUILD_DIR/.profile.d/
-chmod +x $BUILD_DIR/.profile.d/gen-netrc.sh
+cp "$BUILDPACK_DIR/bin/heroku-cli.sh" $BUILD_DIR/.profile.d/
+chmod +x $BUILD_DIR/.profile.d/heroku-cli.sh
 
-echo "-----> heroku toolbelt installation done"
+puts_step "Heroku CLI installation done"
