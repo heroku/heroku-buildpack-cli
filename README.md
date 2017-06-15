@@ -35,3 +35,12 @@ Example usage:
 
     Capturing... done
     Storing... done
+
+Notes
+-----
+
+Instead of setting HEROKU_API_KEY directly on the app as shown above, a short lived token may be passed in at run time:
+
+```
+heroku run "HEROKU_API_KEY=`heroku authorizations:create --expires-in 600 --short` heroku pgbackups:capture SILVER -a myapp" -a myapp
+```
