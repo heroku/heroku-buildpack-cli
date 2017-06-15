@@ -11,8 +11,7 @@ Usage
 
 Example usage:
 
-    $ heroku config:set H_API_EMAIL=`heroku whoami`
-    $ heroku config:set H_API_TOKEN=`heroku auth:token`
+    $ heroku config:set HEROKU_API_KEY=`heroku auth:token`
 
     $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-cli
 
