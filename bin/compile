@@ -7,6 +7,9 @@ set -ueo pipefail
 # debug
 # set -x
 
+# clean up leaking environment
+unset GIT_DIR
+
 source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/buildpack-stdlib/v4/stdlib.sh)"
 
 BUILD_DIR=$1
