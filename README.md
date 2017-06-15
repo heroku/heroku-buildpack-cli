@@ -15,7 +15,6 @@ Example usage:
     $ heroku config:set H_API_TOKEN=`heroku auth:token`
 
     $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-cli
-    $ heroku buildpacks:add heroku/ruby
 
     $ git push heroku master
     ...
