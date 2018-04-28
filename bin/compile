@@ -23,9 +23,9 @@ mkdir -p "$BUILD_DIR/heroku-cli"
 cd "$BUILD_DIR/heroku-cli"
 
 if [[ -z "$(which curl)" ]]; then
-  wget -qO- $HEROKU_CLI_URL | tar xz --strip-components 1
+  wget -qO- $HEROKU_CLI_URL | tar xJ --strip-components 1
 else
-  curl -s --retry 3 $HEROKU_CLI_URL | tar xz --strip-components 1
+  curl -s --retry 3 $HEROKU_CLI_URL | tar xJ --strip-components 1
 fi
 
 puts_step "Installing profile.d script"
