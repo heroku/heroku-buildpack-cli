@@ -28,12 +28,12 @@ if [[ -z "$(which curl)" ]]; then
 else
   curl -s --retry 3 $HEROKU_CLI_URL | tar xJ --strip-components 1
 fi
-ln -s "$BUILD_DIR/.heroku/cli/bin/heroku" "$BUILD_DIR/.heroku/bin/heroku"
+ln -s "../cli/bin/heroku" "$BUILD_DIR/.heroku/bin/heroku"
 
 puts_step "Installing profile.d script"
 mkdir -p "$BUILD_DIR/.profile.d"
 cat <<EOF > "$BUILD_DIR/.profile.d/heroku-cli.sh"
-export PATH="\$PATH:$BUILD_DIR/.heroku/bin"
+export PATH="\$PATH:\$HOME/.heroku/bin"
 export HEROKU_SKIP_ANALYTICS=1
 export HEROKU_DISABLE_AUTOUPDATE=1
 EOF
