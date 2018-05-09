@@ -39,6 +39,5 @@ export HEROKU_DISABLE_AUTOUPDATE=1
 EOF
 chmod +x "$BUILD_DIR/.profile.d/heroku-cli.sh"
 
-source "$BUILD_DIR/.profile.d/heroku-cli.sh"
-heroku version
+"$BUILD_DIR/.heroku/bin/heroku" version
 puts_step "Heroku CLI installation done"
