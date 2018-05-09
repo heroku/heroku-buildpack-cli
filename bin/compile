@@ -33,4 +33,5 @@ mkdir -p "$BUILD_DIR/.profile.d"
 cp "$BUILDPACK_DIR/bin/heroku-cli.sh" "$BUILD_DIR/.profile.d/"
 chmod +x "$BUILD_DIR/.profile.d/heroku-cli.sh"
 
+heroku version
 puts_step "Heroku CLI installation done"
