@@ -13,7 +13,7 @@ Example usage:
 
     $ heroku config:set HEROKU_API_KEY=`heroku auth:token`
 
-    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-cli
+    $ heroku buildpacks:add heroku-community/cli
 
     $ git push heroku master
     ...
@@ -35,6 +35,10 @@ Example usage:
 
     Capturing... done
     Storing... done
+    
+The `heroku-community/cli` from the [Buildpack Registry](https://devcenter.heroku.com/articles/buildpack-registry) contains the latest stable version of the buildpack. To use the edge version of the buildpack (i.e. the source code in this repository) run this command instead:
+
+    $ heroku buildpacks:add https://github.com/heroku/heroku-buildpack-cli
 
 Notes
 -----
