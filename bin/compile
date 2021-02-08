@@ -24,9 +24,9 @@ mkdir -p "$BUILD_DIR/.heroku/bin"
 cd "$BUILD_DIR/.heroku/cli"
 
 if [[ -z "$(which curl)" ]]; then
-  wget -qO- $HEROKU_CLI_URL | tar xJ --strip-components 1
+  wget -U "heroku-buildpack-cli" -qO- $HEROKU_CLI_URL | tar xJ --strip-components 1
 else
-  curl -s --retry 3 $HEROKU_CLI_URL | tar xJ --strip-components 1
+  curl -A "heroku-buildpack-cli" -s --retry 3 $HEROKU_CLI_URL | tar xJ --strip-components 1
 fi
 ln -s "../cli/bin/heroku" "$BUILD_DIR/.heroku/bin/heroku"
 
