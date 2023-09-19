@@ -15,7 +15,7 @@ source /dev/stdin <<< "$(curl -s --retry 3 https://lang-common.s3.amazonaws.com/
 BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname $(dirname "$0"))"
-HEROKU_CLI_URL="https://cli-assets.heroku.com/heroku-linux-x64.tar.xz"
+HEROKU_CLI_URL="https://cli-assets.heroku.com/channels/stable/heroku-linux-x64.tar.xz"
 
 puts_step "Fetching and vendoring Heroku CLI into slug"
 rm -rf "$BUILD_DIR/.heroku/cli"
