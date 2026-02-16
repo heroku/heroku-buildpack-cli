@@ -48,3 +48,17 @@ Instead of setting HEROKU_API_KEY directly on the app as shown above, a short li
 ```
 heroku run "HEROKU_API_KEY=`heroku authorizations:create --expires-in 600 --short` heroku pgbackups:capture SILVER -a myapp" -a myapp
 ```
+
+Using a Specific CLI Version
+----------------------------
+
+To use a specific version of the CLI, add a file named `.heroku-cli-version` to your application root directory. Within the `.heroku-cli-version` file, specify the version of the CLI you would like to use. 
+
+If the version is invalid, or if this file is not present, this buildpack will use the `stable` release of the CLI.
+
+**Examples**:
+
+    10.17.0         # uses CLI v10.17.0
+    alpha           # uses the latest alpha release of the CLI
+    beta            # uses the latest beta release of the CLI
+    invalid-version # Falls-back to the stable release of the CLI
