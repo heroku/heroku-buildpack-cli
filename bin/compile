@@ -16,6 +16,8 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname $(dirname "$0"))"
 HEROKU_CLI_URL="https://cli-assets.heroku.com/channels/stable/heroku-linux-x64.tar.xz"
+HEROKU_CLI_VERSIONS_URL="https://cli-assets.heroku.com/versions/heroku-linux-x64-tar-xz.json"
+HEROKU_CLI_VERSION_FILE="$BUILD_DIR/.heroku-cli-version"
 
 puts_step "Fetching and vendoring Heroku CLI into slug"
 rm -rf "$BUILD_DIR/.heroku/cli"
@@ -23,11 +25,44 @@ mkdir -p "$BUILD_DIR/.heroku/cli"
 mkdir -p "$BUILD_DIR/.heroku/bin"
 cd "$BUILD_DIR/.heroku/cli"
 
-if [[ -z "$(which curl)" ]]; then
-  wget -U "heroku-buildpack-cli" -qO- $HEROKU_CLI_URL | tar xJ --strip-components 1
-else
-  curl -A "heroku-buildpack-cli" -s --retry 3 $HEROKU_CLI_URL | tar xJ --strip-components 1
+fetch_asset() {
+  if [[ -z "$(which curl)" ]]; then
+    wget -U "heroku-buildpack-cli" -qO- $1
+  else
+    curl -A "heroku-buildpack-cli" -s --retry 3 $1
+  fi
+}
+
+get_prerelease_url() {
+  local release=$1
+  jq -r --arg release "$release" 'to_entries | map(select(.key | contains($release))) | max_by(.key | capture("(?<major>\\\\d+)\\\\.(?<minor>\\\\d+)\\\\.(?<patch>\\\\d+)-" + $release + "\\\\.(?<pre>\\\\d+)") | [.major, .minor, .patch, .pre] | map(tonumber)) | .value'
+}
+
+if [[ -s "$HEROKU_CLI_VERSION_FILE" ]]; then
+  read -n 1024 -d "" -r version _ < "$HEROKU_CLI_VERSION_FILE" || :
+
+  if [[ -n "$version" ]]; then
+    version_registry=`fetch_asset $HEROKU_CLI_VERSIONS_URL`
+
+    if [[ "alpha" == "$version" ]]; then
+      puts_step "Fetching latest alpha release"
+      version_url=`echo "$version_registry" | get_prerelease_url "alpha"`
+    elif [[ "beta" == "$version" ]]; then
+      puts_step "Fetching latest beta release"
+      version_url=`echo "$version_registry" | get_prerelease_url "beta"`
+    else
+      puts_step "Fetching v$version release"
+      version_url=`echo "$version_registry" | jq -r --arg version $version '.[$version] // empty'`
+    fi
+
+    if [[ -n $version_url ]]; then
+      puts_step "Version $version does not exist. Fetching stable"
+      HEROKU_CLI_URL=$version_url
+    fi
+  fi
 fi
+
+fetch_asset $HEROKU_CLI_URL | tar xJ --strip-components 1
 ln -s "../cli/bin/heroku" "$BUILD_DIR/.heroku/bin/heroku"
 
 puts_step "Installing profile.d script"
