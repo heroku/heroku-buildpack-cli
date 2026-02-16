@@ -45,19 +45,20 @@ if [[ -s "$HEROKU_CLI_VERSION_FILE" ]]; then
     version_registry=`fetch_asset $HEROKU_CLI_VERSIONS_URL`
 
     if [[ "alpha" == "$version" ]]; then
-      puts_step "Fetching latest alpha release"
+      puts_step "Finding latest alpha release"
       version_url=`echo "$version_registry" | get_prerelease_url "alpha"`
     elif [[ "beta" == "$version" ]]; then
-      puts_step "Fetching latest beta release"
+      puts_step "Finding latest beta release"
       version_url=`echo "$version_registry" | get_prerelease_url "beta"`
     else
-      puts_step "Fetching v$version release"
+      puts_step "Finding v$version release"
       version_url=`echo "$version_registry" | jq -r --arg version $version '.[$version] // empty'`
     fi
 
     if [[ -n $version_url ]]; then
-      puts_step "Version $version does not exist. Fetching stable"
       HEROKU_CLI_URL=$version_url
+    else
+     puts_step "Version $version does not exist. Using stable release"
     fi
   fi
 fi
