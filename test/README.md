@@ -28,7 +28,6 @@ Mock tests that verify the `.heroku-cli-version` file handling and version resol
 
 - Use `file://` URL to override `HEROKU_CLI_VERSIONS_URL` with the local registry
 - Test version resolution without downloading the actual CLI (uses `timeout` to stop before download completes)
-- Run in ~8 seconds (compared to several minutes for integration tests)
 - Validate all version scenarios with real version data
 
 **Test scenarios:**

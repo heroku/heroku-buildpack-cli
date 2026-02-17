@@ -16,7 +16,7 @@ BUILD_DIR=$1
 CACHE_DIR=$2
 BUILDPACK_DIR="$(dirname $(dirname "$0"))"
 HEROKU_CLI_URL="https://cli-assets.heroku.com/channels/stable/heroku-linux-x64.tar.xz"
-HEROKU_CLI_VERSIONS_URL="https://cli-assets.heroku.com/versions/heroku-linux-x64-tar-xz.json"
+HEROKU_CLI_VERSIONS_URL="${HEROKU_CLI_VERSIONS_URL:-https://cli-assets.heroku.com/versions/heroku-linux-x64-tar-xz.json}"
 HEROKU_CLI_VERSION_FILE="$BUILD_DIR/.heroku-cli-version"
 
 puts_step "Fetching and vendoring Heroku CLI into slug"
@@ -39,7 +39,7 @@ get_prerelease_url() {
 }
 
 if [[ -s "$HEROKU_CLI_VERSION_FILE" ]]; then
-  read -n 1024 -d "" -r version _ < "$HEROKU_CLI_VERSION_FILE" || :
+  read -n 1024 -r version _ < "$HEROKU_CLI_VERSION_FILE" || :
 
   if [[ -n "$version" ]]; then
     version_registry=`fetch_asset $HEROKU_CLI_VERSIONS_URL`
