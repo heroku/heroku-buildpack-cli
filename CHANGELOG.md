@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+## v1.2.1
+- Fixes a bug in the `jq` query that was selecting the incorrect version, when the `.heroku-cli-version` file specified `alpha` or `beta`
+
 ## v1.2.0
 - Adds support for a `.heroku-cli-version` file for pinning to a specific version of the Heroku CLI.
 

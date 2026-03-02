@@ -62,3 +62,10 @@ If the version is invalid, or if this file is not present, this buildpack will u
     alpha           # uses the latest alpha release of the CLI
     beta            # uses the latest beta release of the CLI
     invalid-version # Falls-back to the stable release of the CLI
+    
+Running Test
+------------
+
+`make test` to run all tests.
+
+> Note: For MacOS users, these tests require the `timeout` command. The simplest way to get that is running `brew install coreutils`.
