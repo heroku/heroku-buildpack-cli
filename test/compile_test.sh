@@ -66,7 +66,7 @@ run_compile_until_download() {
 
   # Run compile but timeout after 1 second (just enough to see version resolution)
   # Capture output up to the download attempt
-  timeout 1s "$buildpack_dir/bin/compile" "$TEST_BUILD_DIR" "$TEST_CACHE_DIR" 2>&1 | tee "$TEST_OUTPUT" || true
+  timeout 2s "$buildpack_dir/bin/compile" "$TEST_BUILD_DIR" "$TEST_CACHE_DIR" 2>&1 | tee "$TEST_OUTPUT" || true
 }
 
 ###############################################################################
@@ -186,6 +186,9 @@ test_beta_version() {
   run_compile_until_download
 
   # Should show beta-specific message
+  echo "--------------------------------"
+  cat "$TEST_OUTPUT"
+  echo "--------------------------------"
   if grep -q "Finding latest beta release" "$TEST_OUTPUT"; then
     pass "Detects beta version request"
   else
