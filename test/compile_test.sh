@@ -186,9 +186,6 @@ test_beta_version() {
   run_compile_until_download
 
   # Should show beta-specific message
-  echo "--------------------------------"
-  cat "$TEST_OUTPUT"
-  echo "--------------------------------"
   if grep -q "Finding latest beta release" "$TEST_OUTPUT"; then
     pass "Detects beta version request"
   else
