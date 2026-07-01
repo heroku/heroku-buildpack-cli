@@ -1,3 +1,3 @@
-# Comment line immediately above ownership line is reserved for related gus information. Please be careful while editing.
-* @heroku/front-end
 #ECCN:Open Source
+#GUSINFO:Heroku FE Dev Tools,Heroku CLI & Plugins
+* @heroku/frontend-dev-tooling 
