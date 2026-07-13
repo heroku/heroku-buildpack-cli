@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- chore: fix Dependabot config (W-23336104)
+
 ## v1.2.1
 - Fixes a bug in the `jq` query that was selecting the incorrect version, when the `.heroku-cli-version` file specified `alpha` or `beta`
 
