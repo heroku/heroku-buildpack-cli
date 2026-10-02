@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# bin/export <build-dir> <cache-dir>
+#
+# Exports environment modifications so subsequent buildpacks can use
+# the Heroku CLI installed by this buildpack.
+
+BUILD_DIR=$1
+
+export PATH="$BUILD_DIR/.heroku/bin:$PATH"
+export HEROKU_SKIP_ANALYTICS=1
+export HEROKU_DISABLE_AUTOUPDATE=1
