@@ -2,7 +2,6 @@
 
 ## Unreleased
 
-- fix: add bin/export so subsequent buildpacks can use the Heroku CLI (#5)
 - chore: fix Dependabot config (W-23336104)
 
 ## v1.2.1
